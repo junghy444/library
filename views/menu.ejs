@@ -1,0 +1,76 @@
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <!-- Navbar brand -->
+    <a class="navbar-brand" href="#">Library</a>
+  
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+      aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="basicExampleNav">
+  
+      <!-- Links -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">우리도서관
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/book">도서조회</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/proposal">도서신청</a>
+        </li>
+
+        <% if(user!=null){ %> 
+          <% if(user.role == 1) { %> 
+            <li class="nav-item">
+              <a class="nav-link" href="/api/member">회원관리</a>
+            </li>
+          <% }%> 
+        <% } %> 
+  
+      </ul>
+      <!-- Links -->
+      <% if(user === null) { %>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/api/user/login">로그인</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/user/signup">회원가입</a>
+        </li>
+      </ul>
+      <% } else { %>
+        <% if(user.role == 1) { %> 
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link">관리자 <%= user.id %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api/user/logout">로그아웃</a>
+            </li>
+          </ul>
+        <% } else { %>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link"><%= user.id %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api/user/logout">로그아웃</a>
+            </li>
+          </ul>
+        <% } %> 
+      <% }%>
+      
+    </div>
+    <!-- Collapsible content -->
+  
+</nav>
+<!--/.Navbar-->
+  

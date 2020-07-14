@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .index{
+     padding-top:20%;
+     font-size:40px;
+    }
+  </style>
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <% if(user.role == 1) { %> 
+    
+  <form id="updateForm">
+  <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="name" class="form-control" value="<%=result.name%>" required/>
+    <label for="name">Modify Name</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="birth" class="form-control" value="<%=result.birth%>" required/>
+    <label for="birth">Modify Birthday</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="phone" class="form-control" value="<%=result.phone%>" required/>
+    <label for="phone">Modify Phone Number</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="memNum" class="form-control" value="<%=result.memNum%>" required/>
+    <label for="memNum">Modify Member Number</label>
+  </div>
+
+  <button type="submit" class="btn btn-dark">저장</button>
+
+  </form>
+  
+  <% } else { %>
+    <div class="index" style="text-align: center;">접속 권한이 없습니다</div>
+  <% }%>
+
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+      $("#updateForm").submit((event)=>{
+        event.preventDefault();
+        const name = $("#name").val();
+        const birth = $("#birth").val();
+        const phone = $("#phone").val();
+        const memNum = $("#memNum").val();
+        
+        $.ajax({
+          url: "/api/member/<%=result._id%>",
+          type: "PUT",
+          data: { name, birth, phone, memNum },
+        }).done(() => {
+          location.href = "/api/member/<%=result._id%>";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      });
+    });
+  </script>
+</body>
+</html>

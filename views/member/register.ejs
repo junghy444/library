@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .index{
+     padding-top:20%;
+     font-size:40px;
+    }
+  </style>
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <% if(user.role == 1) { %> 
+
+  <!-- Material form register -->
+<div class="card">
+
+  <h5 class="card-header bg-dark white-text text-center py-4">
+      <strong>Register</strong>
+  </h5>
+
+  <!--Card content-->
+  <div class="card-body px-lg-5 pt-0">
+
+      <!-- Form -->
+      <form id="registerForm" class="text-center" style="color: #757575;" action="#!">
+
+          <div class="form-row">
+              <div class="col">
+                  <!-- Name -->
+                  <div class="md-form">
+                      <input type="text" id="name" class="form-control" required>
+                      <label for="name">Input Name</label>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Birthday -->
+          <div class="md-form">
+            <input type="text" id="birth" class="form-control" required>
+            <label for="birth">Input Birthday</label>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="md-form">
+            <input type="text" id="phone" class="form-control" required>
+            <label for="phone">Input Phone Number</label>
+          </div>
+
+          <!-- Member Number -->
+          <div class="md-form">
+            <input type="text" id="memNum" class="form-control" required>
+            <label for="memNum">Input Member Number</label>
+            </div>
+
+          <!-- Sign up button -->
+          <button class="btn btn-outline-dark btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Register</button>
+
+      </form>
+  </div>
+</div>
+
+<% } else { %>
+  <div class="index" style="text-align: center;">접속 권한이 없습니다</div>
+<% }%>
+
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+      $("#registerForm").submit((event)=>{
+        event.preventDefault();
+        // 등록
+        const name = $("#name").val();
+        const birth = $("#birth").val();
+        const phone = $("#phone").val();
+        const memNum = $("#memNum").val();
+        
+        $.ajax({
+          url: "/api/member/register",
+          type: "POST",
+          data: { name, birth, phone, memNum },
+        }).done(() => {
+          location.href = "/api/member";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .index{
+     padding-top:20%;
+     font-size:40px;
+    }
+  </style>
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <% if(user.role == 1) { %> 
+  
+    <form action="/api/member" class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+      <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="검색" name="q"
+        aria-label="검색">
+      <i class="fas fa-search" aria-hidden="true"></i>
+    </form>
+
+    <button type="button" class="btn btn-dark" onclick="location.href='/api/member/new'">
+      회원 등록</button>
+
+  <div class="row row-cols-1 row-cols-md-4" style="margin: 50px">
+  <% result.forEach(member =>{ %>
+  
+    <!-- 목록 조회 -->
+        <div class="col mb-4">
+          <!-- Card -->
+          <div class="card">
+      
+            <!--Card image-->
+            <div class="view overlay">
+              <img class="card-img-top" src="http://localhost:3000/images/member.jpg"
+                alt="Card image cap">
+              <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+      
+            <!--Card content-->
+            <div class="card-body">
+      
+              <!--Title-->
+              <h4 class="card-title"><%= member.name%></h4>
+              <!--Text-->
+              <p class="card-text"><%= member.birth %></p>
+              <!--Text-->
+              <p class="card-text"><%= member.phone %></p>
+              <!--Text-->
+              <p class="card-text"><%= member.memNum %></p>
+              <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+              <button type="button" class="btn btn-dark btn-md" onclick="location.href='/api/member/<%=member._id%>'">
+                자세히 보기</button>
+      
+            </div>
+      
+          </div>
+          <!-- Card -->
+        </div>
+  <% }); %>
+  </div>
+
+  <% } else { %>
+    <div class="index" style="text-align: center;">접속 권한이 없습니다</div>
+  <% }%>
+
+<%- include("../footer"); %>
+</body>
+</html>

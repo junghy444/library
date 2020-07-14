@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <!-- Material form register -->
+<div class="card">
+
+  <h5 class="card-header bg-dark white-text text-center py-4">
+      <strong>회원가입</strong>
+  </h5>
+
+  <!--Card content-->
+  <div class="card-body px-lg-5 pt-0">
+
+      <!-- Form -->
+      <form id="signupForm" class="text-center" style="color: #757575;" action="#!">
+
+          <div class="form-row">
+              <div class="col">
+                  <!-- ID -->
+                  <div class="md-form">
+                      <input type="text" id="id" class="form-control" required>
+                      <label for="id">Input ID</label>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Password -->
+          <div class="md-form">
+              <input type="password" id="password" class="form-control" aria-describedby="materialRegisterFormPasswordHelpBlock" required>
+              <label for="password">Input Password</label>
+          </div>
+
+          <!-- Name -->
+          <div class="md-form mt-0">
+            <input type="text" id="name" class="form-control" required>
+            <label for="name">Input Name</label>
+          </div>
+
+          <!-- Member Number -->
+          <div class="md-form mt-0">
+              <input type="text" id="memNum" class="form-control" required>
+              <label for="memNum">Input Member Number</label>
+          </div>
+
+
+          <!-- Sign up button -->
+          <button class="btn btn-outline-dark btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">회원가입</button>
+
+      </form>
+      <!-- Form -->
+
+  </div>
+
+</div>
+<!-- Material form register -->
+
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+      $("#signupForm").submit((event)=>{
+        event.preventDefault();
+        // 등록
+        const id = $("#id").val();
+        const password = $("#password").val();
+        const name = $("#name").val();
+        const memNum = $("#memNum").val();
+        
+        $.ajax({
+          url: "/api/user/signup",
+          type: "POST",
+          data: { id, password, name, memNum },
+        }).done(() => {
+          location.href = "/api/user/login";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <form id="updateForm">
+  <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="title" class="form-control" value="<%=result.title%>" required/>
+    <label for="title">Modify Title</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="author" class="form-control" value="<%=result.author%>" required/>
+    <label for="author">Modify Author</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="company" class="form-control" value="<%=result.company%>" required/>
+    <label for="company">Modify Company</label>
+  </div>
+
+  <button type="submit" class="btn btn-dark">저장</button>
+
+  </form>
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+      $("#updateForm").submit((event)=>{
+        event.preventDefault();
+        const title = $("#title").val();
+        const author = $("#author").val();
+        const company = $("#company").val();
+        
+        $.ajax({
+          url: "/api/proposal/<%=result._id%>",
+          type: "PUT",
+          data: { title, author, company },
+        }).done(() => {
+          location.href = "/api/proposal/<%=result._id%>";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      });
+    });
+  </script>
+</body>
+</html>

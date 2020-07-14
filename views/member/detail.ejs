@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .index{
+     padding-top:20%;
+     font-size:40px;
+    }
+  </style>
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <% if(user.role == 1) { %> 
+  
+    <!-- 상세 조회 -->
+    <!-- Material input -->
+    <div class="md-form">
+      <input type="text" id="name" class="form-control" value="<%=result.name%>" readonly/>
+      <label for="name">Name</label>
+    </div>
+    <div class="md-form">
+      <input type="text" id="birth" class="form-control" value="<%=result.birth%>" readonly/>
+      <label for="birth">Birthday</label>
+    </div>
+    <div class="md-form">
+      <input type="text" id="phone" class="form-control" value="<%=result.phone%>" readonly/>
+      <label for="phone">Phone</label>
+    </div>
+    <div class="md-form">
+      <input type="text" id="memNum" class="form-control" value="<%=result.memNum%>" readonly/>
+      <label for="memNum">Member Number</label>
+    </div>
+
+    <button onclick="location.href='/api/member'" class="btn btn-dark">목록</button>
+    <% if(user.role == 1) { %> 
+      <button onclick="location.href='/api/member/<%= result._id%>/edit'" class="btn btn-dark">수정</button>
+      <button id="deleteBtn" class="btn btn-dark">삭제</button>
+    <% } %> 
+
+  <% } else { %>
+    <div class="index" style="text-align: center;">접속 권한이 없습니다</div>
+  <% }%>
+
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+      $("#deleteBtn").on("click", ()=>{
+        const result = confirm("정말 삭제하시겠습니까?");
+        if(result){
+          $.ajax({
+            url: "/api/member/<%=result._id%>",
+            type: "DELETE"
+          }).done(() => {
+            location.href = "/api/member";
+          }).fail((request, status, error) => {
+            alert(request.responseText);
+          });
+        }
+        else {
+          console.log("삭제 취소");
+        }
+      })
+    });
+  </script>
+
+</body>
+</html>

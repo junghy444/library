@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <!-- 상세 조회 -->
+  <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="title" class="form-control" value="<%=result.title%>" readonly/>
+    <label for="title">Title</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="author" class="form-control" value="<%=result.author%>" readonly/>
+    <label for="author">Author</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="company" class="form-control" value="<%=result.company%>" readonly/>
+    <label for="company">Company</label>
+  </div>
+
+  <button onclick="location.href='/api/book'" class="btn btn-dark">목록</button>
+  <% if(user!=null){ %> 
+    <% if(user.role == 1) { %> 
+    <button onclick="location.href='/api/book/<%= result._id%>/edit'" class="btn btn-dark">수정</button>
+    <button id="deleteBtn" class="btn btn-dark">삭제</button>
+    <% } %> 
+  <% } %> 
+
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+      $("#deleteBtn").on("click", ()=>{
+        const result = confirm("정말 삭제하시겠습니까?");
+        if(result){
+          $.ajax({
+            url: "/api/book/<%=result._id%>",
+            type: "DELETE"
+          }).done(() => {
+            location.href = "/api/book";
+          }).fail((request, status, error) => {
+            alert(request.responseText);
+          });
+        }
+        else {
+          console.log("삭제 취소");
+        }
+      })
+    });
+  </script>
+
+</body>
+</html>

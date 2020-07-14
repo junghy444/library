@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .index{
+     padding-top:20%;
+     font-size:40px;
+    }
+  </style>
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+  <% if(user.role == 1) { %> 
+  
+  <form id="updateForm">
+  <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="title" class="form-control" value="<%=result.title%>" required/>
+    <label for="title">Modify Title</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="author" class="form-control" value="<%=result.author%>" required/>
+    <label for="author">Modify Author</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="company" class="form-control" value="<%=result.company%>" readonly/>
+    <label for="company">Modify Company</label>
+  </div>
+
+  <button type="submit" class="btn btn-dark">저장</button>
+
+  </form>
+
+  <% } else { %>
+    <div class="index" style="text-align: center;">접속 권한이 없습니다</div>
+  <% }%>
+
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+      $("#updateForm").submit((event)=>{
+        event.preventDefault();
+        const title = $("#title").val();
+        const author = $("#author").val();
+        const company = $("#company").val();
+        
+        $.ajax({
+          url: "/api/book/<%=result._id%>",
+          type: "PUT",
+          data: { title, author, company },
+        }).done(() => {
+          location.href = "/api/book/<%=result._id%>";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      });
+    });
+  </script>
+</body>
+</html>

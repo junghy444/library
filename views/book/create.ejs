@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .index{
+     padding-top:20%;
+     font-size:40px;
+    }
+  </style>
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+
+  <% if(user.role == 1) { %>  
+  <form id="createForm">
+
+  <!-- Material input -->
+  <div class="md-form">
+    <input type="text" id="title" class="form-control" required/>
+    <label for="title">Input Title</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="author" class="form-control" required/>
+    <label for="author">Input Author</label>
+  </div>
+  <div class="md-form">
+    <input type="text" id="company" class="form-control" required/>
+    <label for="company">Input Company</label>
+  </div>
+
+  <button type="submit" class="btn btn-dark">
+    도서 등록</button>
+  </form>
+  <% } else { %>
+    <div class="index" style="text-align: center;">접속 권한이 없습니다</div>
+  <% }%>
+
+  <%- include("../footer"); %>
+
+  <script>
+    $(function () {
+
+      $("#createForm").submit((event)=>{
+        event.preventDefault();
+        // 등록
+        const title = $("#title").val();
+        const author = $("#author").val();
+        const company = $("#company").val();
+
+        $.ajax({
+          url: "/api/book",
+          type: "POST",
+          data: { title, author, company},
+        }).done(() => {
+          location.href = "/api/book/new";
+        }).fail((request, status, error) => {
+          alert(request.responseText);
+        })
+      });
+    });
+  </script>
+</body>
+</html>

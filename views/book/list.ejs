@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../header"); %>
+<body>
+  <%- include("../menu"); %>
+  
+    <form action="/api/book" class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2">
+      <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="검색" name="q"
+        aria-label="검색">
+      <i class="fas fa-search" aria-hidden="true"></i>
+    </form>
+
+    
+    <% if(user!=null){ %> 
+      <% if(user.role == 1) { %> 
+        <button type="button" class="btn btn-dark" onclick="location.href='/api/book/new'">
+          도서 등록</button>
+      <% } %> 
+    <% } %> 
+
+  <div class="row row-cols-1 row-cols-md-4" style="margin: 50px">
+  <% result.forEach(book =>{ %>
+  
+    <!-- 목록 조회 -->
+        <div class="col mb-4">
+          <!-- Card -->
+          <div class="card">
+      
+            <!--Card image-->
+            <div class="view overlay">
+              <img class="card-img-top" src="http://localhost:3000/images/book.png"
+                alt="Card image cap">
+              <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+      
+            <!--Card content-->
+            <div class="card-body">
+      
+              <!--Title-->
+              <h4 class="card-title"><%= book.title %></h4>
+              <!--Text-->
+              <p class="card-text"><%= book.author %></p>
+              <p class="card-text"><%= book.company%></p>
+              <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+              <button type="button" class="btn btn-dark btn-md" onclick="location.href='/api/book/<%=book._id%>'">
+                자세히 보기</button>
+      
+            </div>
+      
+          </div>
+          <!-- Card -->
+        </div>
+        <% }); %>
+        </div>
+
+<%- include("../footer"); %>
+</body>
+</html>
